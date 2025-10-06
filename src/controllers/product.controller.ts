@@ -101,13 +101,11 @@ export const getLowStockProducts = async (
     next: NextFunction
 ): Promise<void> => {
     try {
-        console.log("getLowStockProducts - Auto-restart is working pe drfectly!");
         const products = await Product.find({
             $expr: { $lt: ['$stock_quantity', '$low_stock_threshold'] }
         });
         res.status(200).json(successResponse(products, 'Low stock products fetched successfully'));
-    } catch (error:any) {
-        console.log(error.message);
+    } catch (error) {
         next(new AppError('Failed to fetch low stock products', 500));
     }
 };
